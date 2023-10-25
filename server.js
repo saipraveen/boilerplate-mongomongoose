@@ -136,6 +136,27 @@ router.post("/create-many-people", function (req, res, next) {
   });
 });
 
+const createPeopleNew = require("./myApp.js").createManyPeople;
+router.post("/create-many-people-new", function (req, res, next) {
+  createPeopleNew(req.body, function (err, data) {
+    // clearTimeout(t);
+    if (err) {
+      return next(err);
+    }
+    if (!data) {
+      console.log("Missing `done()` argument");
+      return next({ message: "Missing callback argument" });
+    }
+    Person.find({}, function (err, pers) {
+      if (err) {
+        return next(err);
+      }
+      res.json(pers);
+      // Person.remove().exec();
+    });
+  });
+});
+
 const findByName = require("./myApp.js").findPeopleByName;
 router.post("/find-all-by-name", function (req, res, next) {
   let t = setTimeout(() => {
