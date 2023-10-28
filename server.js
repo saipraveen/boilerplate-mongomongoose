@@ -187,10 +187,12 @@ router.post("/find-one-by-food", function (req, res, next) {
     next({ message: "timeout" });
   }, TIMEOUT);
   let p = new Person(req.body);
+  console.log('req.body -- ', req.body);
   p.save(function (err, pers) {
     if (err) {
       return next(err);
     }
+    console.log(pers);
     findByFood(pers.favoriteFoods[0], function (err, data) {
       clearTimeout(t);
       if (err) {
